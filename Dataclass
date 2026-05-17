@@ -1,0 +1,24 @@
+from dataclasses import dataclass
+from datetime import datetime
+
+
+@dataclass
+class BaseEntity:
+    id: int
+    created_at: datetime
+
+
+@dataclass
+class User(BaseEntity):
+    username: str
+    email: str
+
+
+user = User(
+    id=1,
+    created_at=datetime.now(),
+    username="alex",
+    email="alex@mail.com"
+)
+
+print(user)
