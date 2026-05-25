@@ -1,0 +1,22 @@
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy.orm import relationship
+from database import Base
+
+class TodoList(Base):
+    __tablename__ = "todo_lists"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    total_items = Column(Integer, default=0)
+    completed_items = Column(Integer, default=0)
+    
+    items = relationship("Item", back_populates="todo_list", cascade="all, delete-orphan")
+
+class Item(Base):
+    __tablename__ = "items"
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    text = Column(String, nullable=True)
+    is_done = Column(Boolean, default=False)
+    todo_list_id = Column(Integer, ForeignKey("todo_lists.id", ondelete="CASCADE"), nullable=False)
+    
+    todo_list = relationship("TodoList", back_populates="items")
